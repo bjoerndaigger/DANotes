@@ -1,7 +1,10 @@
 export interface Note {
-    id?: string;
+    id?: string; // ? bedeutet optional
     type: "note" | "trash";
-    titel:string;
+    title:string;
     content:string;
     marked: boolean;
 }
+
+
+

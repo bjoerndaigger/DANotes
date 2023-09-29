@@ -5,6 +5,7 @@ import {
   doc,
   collectionData,
   onSnapshot,
+  addDoc
 } from '@angular/fire/firestore';
 import { Note } from '../interfaces/note.interface';
 import { Observable } from 'rxjs';
@@ -15,8 +16,7 @@ import { Observable } from 'rxjs';
 export class NoteListService {
   normalNotes: Note[] = [];
   trashNotes: Note[] = [];
-  //  items$;
-  //  items;
+
   unsubNotes;
   unsubTrash;
 
@@ -25,12 +25,10 @@ export class NoteListService {
   constructor() {
     this.unsubNotes = this.subNotesList();
     this.unsubTrash = this.subTrashList();
-    //    this.items$ = collectionData(this.getNotesRef());
-    //    this.items = this.items$.subscribe((list) => {
-    //      list.forEach((element) => {
-    //        console.log(element);
-    //      });
-    //    });
+  }
+
+  async addNote (item: {}) {
+    await addDoc(this.getNotesRef(), item)
   }
 
   subNotesList() {
@@ -54,7 +52,6 @@ export class NoteListService {
   ngOnDestroy() {
     this.unsubNotes(); // Unsubcribe
     this.unsubTrash();
-    //  this.items.unsubscribe();
   }
 
   setNoteObjects(obj: any, id: string): Note {

@@ -16,12 +16,12 @@ export class AddNoteDialogComponent {
 
   addNote(){
     let note: Note = {
-      type: "note",
+      type: 'note',
       title: this.title,
       content: this.content,
       marked: false,
     }
-    this.noteService.addNote(note);
+    this.noteService.addNote(note, 'notes');
     this.closeDialog(); // beachte das closeDialog() zum Schluss kommt, denn es leert die Variablen
   }
   

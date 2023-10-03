@@ -6,6 +6,7 @@ import {
   onSnapshot,
   addDoc,
   updateDoc,
+  deleteDoc,
 } from '@angular/fire/firestore';
 import { Note } from '../interfaces/note.interface';
 import { Observable } from 'rxjs';
@@ -25,6 +26,12 @@ export class NoteListService {
   constructor() {
     this.unsubNotes = this.subNotesList();
     this.unsubTrash = this.subTrashList();
+  }
+
+  async deleteNote(colId: "notes" | "trash", docId: string) {
+    await deleteDoc(this.getSingleDocRef(colId, docId)).catch(
+      (err) => {console.log(err)}
+      );
   }
 
   async updateNote(note: Note) {
@@ -55,14 +62,24 @@ export class NoteListService {
     }
   }
 
-  async addNote(item: Note) {
+  async addNote(item: Note, colId: "notes" | "trash") {
+    if (colId == "notes"){
     await addDoc(this.getNotesRef(), item)
       .catch((err) => {
-        console.log(err);
-      })
+        console.error(err);
+      }) 
       .then((docRef) => {
         console.log('Document written with ID: ', docRef?.id);
       });
+    } else {
+      await addDoc(this.getTrashRef(), item)
+      .catch((err) => {
+        console.error(err);
+      }) 
+      .then((docRef) => {
+        console.log('Document written with ID: ', docRef?.id);
+      });
+    }
   }
 
   subNotesList() {

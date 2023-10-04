@@ -14,10 +14,16 @@ export class NoteListComponent {
 
   constructor(private noteService: NoteListService) {}
 
-  getList() {
+  getList(): Note[] {
     if (this.status == 'notes') {
-      return this.noteService.normalNotes;
-    } else return this.noteService.trashNotes;
+      if (this.favFilter == 'all') {
+        return this.noteService.normalNotes;
+      } else {
+        return this.noteService.normalMarkedNotes;
+      }
+    } else {
+      return this.noteService.trashNotes;
+    }
   }
 
   changeFavFilter(filter: 'all' | 'fav') {
